@@ -220,7 +220,7 @@ Object.assign(window.DG_TEMPLATES, {"hidup-mati": "UEsDBBQAAAAIAAAAIQBYVIKfiAEAA
 
   function parseOrder(block, idx) {
     const lines = block.split('\n'); const warnings = [];
-    const ai = lines.findIndex(l => /atas\s*nama/i.test(l));
+    const ai = lines.findIndex(l => /atas\s*nama|nama\s*(yg|yang)\s*(di\s*)?(aqiqah|akikah|aqiqoh)/i.test(l));
     const pre = ai >= 0 ? lines.slice(0, ai).join(' ') + ' ' + lines[ai].split(/atas\s*nama/i)[0] : '';
     let eventIso = '', eventRaw = '';
     const ed = findDates(pre); if (ed.length) { eventIso = ed[0].iso; eventRaw = ed[0].raw; }
@@ -242,12 +242,14 @@ Object.assign(window.DG_TEMPLATES, {"hidup-mati": "UEsDBBQAAAAIAAAAIQBYVIKfiAEAA
     // nama ibu
     let mother = ''; const mi = lines.findIndex(l => /nama\s*ibu/i.test(l));
     if (mi >= 0) { mother = clean(lines[mi].replace(/^.*?nama\s*ibu\s*[:：\-]?/i, '')); if (!mother) { const nx = lines.slice(mi + 1).find(l => l.trim()); if (nx && !LABEL_RE.test(nx)) mother = clean(nx); } }
+    mother = mother.replace(/^\d+\s*[.)\-]\s*/, '');
     // tanggal lahir
     const bd = [];
     lines.forEach((l, i) => { if (/lahir|\bttl\b/i.test(l) && !/atas\s*nama/i.test(l)) { let f = findDates(l); if (!f.length) { const nx = lines.slice(i + 1).find(x => x.trim()); if (nx) f = findDates(nx); } bd.push(...f);
       for (let j = i + 1, n = 0; j < lines.length && n < 4; j++) { if (!lines[j].trim()) continue; const g = findDates(lines[j]); if (!g.length || LABEL_RE.test(lines[j]) || /lahir/i.test(lines[j]) || lines[j].replace(g[0].raw, '').replace(/[\d.\s:)\-]/g, '').length > 12) break; bd.push(...g); n++; } } });
     children.forEach((c, i) => { const d = bd.length >= children.length ? bd[i] : bd.length === 1 ? bd[0] : null; if (d) { c.birth = d.iso; c.birthRaw = d.raw; } });
     if (children.length > 1 && bd.length === 1) warnings.push('Hanya 1 tanggal lahir ditemukan untuk beberapa anak — periksa.');
+    if (!eventIso) { const pick = lines.find(l => /hari|pesanan|sampai|acara/i.test(l) && findDates(l).length); if (pick) { const d = findDates(pick)[0]; eventIso = d.iso; eventRaw = d.raw; } }
     if (!eventIso) { const any = findDates(lines.filter(l => !/lahir/i.test(l)).join('\n')); if (any.length) { eventIso = any[0].iso; eventRaw = any[0].raw; } }
     const khitan = /khitan|sunat|sunnat/i.test(block);
     const deceased = /\b(almarhum|almarhumah|almh|alm|mendiang|allahyarham|arwah|wafat|meninggal|haul)\b/i.test(block);
@@ -499,10 +501,9 @@ Object.assign(window.DG_TEMPLATES, {"hidup-mati": "UEsDBBQAAAAIAAAAIQBYVIKfiAEAA
     [...doc.getElementsByTagNameNS(WNS, 'p')].forEach(p => {
       const txt = [...p.getElementsByTagNameNS(WNS, 't')].map(t => t.textContent).join('');
       if (/BISMILL|[\u0600-\u06FF]/i.test(txt) && txt.length < 80) { fixBismillah(p); return; }
-      if (/alaikum\s*wr\.?\s*wb/i.test(txt) && !/waalaikum/i.test(txt)) {
-        const nx = p.nextElementSibling, nxTxt = nx ? [...nx.getElementsByTagNameNS(WNS, 't')].map(t => t.textContent).join('') : '';
-        if (!/waalaikum/i.test(nxTxt)) { const np = p.cloneNode(true); setText(np, 'Waalaikumsalam Wr. Wb'); p.parentNode.insertBefore(np, p.nextSibling); }
-      }
+      // format salam tunggal: balasan "Waalaikumsalam" dihapus, salam penutup dibakukan
+      if (/waalaikum/i.test(txt) && /alaikum/i.test(txt)) { p.parentNode.removeChild(p); return; }
+      if (/alaikum\s*wr\.?\s*wb/i.test(txt)) setText(p, 'Wassalamualaikum Wr. Wb');
       if (!txt.includes('{{')) return;
       const tk = Object.keys(TV).find(t => txt.includes('{{' + t + '}}'));
       if (tk) { setText(p, TV[tk]); return; }
