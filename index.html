@@ -1362,5 +1362,249 @@ NB : +62 853-5372-5730 (BISA HUBUNGI NO INI, JIKA NO KAMI DALAM KEADAAN TIDAK AK
 })();
 
 </script>
+<style>
+/* ===== DiGhital FX — efek interaksi ===== */
+#toast{display:none!important}
+.btn{position:relative;overflow:hidden;transition:transform .15s cubic-bezier(.3,1.6,.5,1),box-shadow .2s,filter .2s}
+.btn:not(:disabled):hover{transform:translateY(-2px);filter:brightness(1.1);box-shadow:0 6px 22px rgba(47,107,255,.5)}
+.btn.lime:not(:disabled):hover{box-shadow:0 6px 22px rgba(182,255,60,.5)}
+.btn:not(:disabled):active{transform:scale(.94)}
+select.btn{overflow:visible}
+.fx-rip{position:absolute;border-radius:50%;background:rgba(255,255,255,.55);transform:scale(0);animation:fxRip .6s ease-out forwards;pointer-events:none}
+@keyframes fxRip{to{transform:scale(4);opacity:0}}
+textarea,input:not([type=checkbox]),select{transition:box-shadow .25s,border-color .25s}
+textarea:focus{box-shadow:0 0 0 3px rgba(47,107,255,.35),0 0 28px rgba(164,91,255,.35)}
+.fx-shake{animation:fxShake .5s}
+@keyframes fxShake{20%,60%{transform:translateX(-8px)}40%,80%{transform:translateX(8px)}}
+.fx-pulse{animation:fxPulse .9s ease-in-out 3}
+@keyframes fxPulse{50%{transform:scale(1.1);box-shadow:0 0 0 8px rgba(182,255,60,.25),0 0 28px rgba(182,255,60,.7)}}
+.fx-pop{animation:fxPop .55s cubic-bezier(.2,1.4,.4,1) both}
+@keyframes fxPop{from{opacity:0;transform:translateY(26px) scale(.94)}to{opacity:1;transform:none}}
+.pill{animation:fxPop .5s cubic-bezier(.2,1.4,.4,1) both}
+header svg,.inv-brand{transform-origin:50% 90%}
+.fx-hop{animation:fxHop .7s cubic-bezier(.3,1.5,.5,1)}
+@keyframes fxHop{0%{transform:none}30%{transform:translateY(-14px) rotate(-8deg) scale(1.08)}60%{transform:translateY(0) rotate(6deg)}100%{transform:none}}
+.fx-sad{animation:fxSad .6s}
+@keyframes fxSad{25%{transform:rotate(-10deg)}50%{transform:rotate(10deg)}75%{transform:rotate(-5deg)}}
+#fxCanvas{position:fixed;inset:0;width:100vw;height:100vh;pointer-events:none;z-index:99}
+#fxToast{position:fixed;left:50%;bottom:26px;z-index:100;display:flex;align-items:center;gap:12px;max-width:min(92vw,520px);padding:12px 18px 14px 12px;border-radius:18px;background:linear-gradient(135deg,#16245a,#0f1a42);color:#eaf0ff;font:700 14px/1.35 'Plus Jakarta Sans',system-ui,sans-serif;border:1px solid rgba(150,170,255,.35);box-shadow:0 12px 40px rgba(0,0,0,.5),0 0 30px var(--fx,rgba(47,107,255,.5));transform:translate(-50%,140%) scale(.8);opacity:0;pointer-events:none;overflow:hidden;transition:transform .5s cubic-bezier(.2,1.5,.4,1),opacity .3s}
+#fxToast.show{transform:translate(-50%,0) scale(1);opacity:1}
+#fxToast .ic{flex:none;width:38px;height:38px;border-radius:12px;display:grid;place-items:center;font-size:20px;background:var(--fxc,var(--lime));color:#0a1128}
+#fxToast.show .ic{animation:fxHop .7s .1s both}
+#fxToast .bar{position:absolute;left:0;bottom:0;height:3px;width:100%;background:var(--fxc,var(--lime));transform-origin:left;transform:scaleX(0)}
+#fxToast.show .bar{animation:fxBar var(--dur,3200ms) linear forwards}
+@keyframes fxBar{from{transform:scaleX(1)}to{transform:scaleX(0)}}
+#fxToast.ok{--fxc:#b6ff3c;--fx:rgba(182,255,60,.45)}
+#fxToast.warn{--fxc:#ffd36b;--fx:rgba(255,211,107,.4)}
+#fxToast.err{--fxc:#ff6b8a;--fx:rgba(255,107,138,.45)}
+#fxToast.info{--fxc:#6f9bff;--fx:rgba(47,107,255,.5)}
+#fxSound{position:fixed;left:14px;bottom:14px;z-index:98;width:40px;height:40px;border-radius:50%;border:1px solid rgba(150,170,255,.4);background:#111b3d;color:#eaf0ff;font-size:17px;cursor:pointer;opacity:.75;transition:.2s}
+#fxSound:hover{opacity:1;transform:scale(1.1)}
+@media print{#fxCanvas,#fxToast,#fxSound{display:none!important}}
+@media (prefers-reduced-motion:reduce){.fx-pop,.pill,.fx-hop,.fx-pulse,.fx-shake{animation:none}}
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;700&display=swap');
+/* ===== Tema Collaboo: kobalt + kartu putih + monster ===== */
+:root{--navy:#1f4fa8;--navy2:#f2f4f8;--card:#f2f4f8;--blue:#1f4fa8;--purple:#7b5cff;--lime:#c5f03c;--text:#15316e;--mut:#5b77a8;--bad:#ff3fa4;--sky:#b9dbf7;--ink:#15316e}
+body,.btn,textarea,input,select,.kline,.tb{font-family:'Ubuntu','Plus Jakarta Sans',system-ui,sans-serif}
+body{background:#1f4fa8;color:#fff;padding-bottom:96px}
+.wrap{max-width:760px}
+.hw{background:#f2f4f8;color:var(--ink);border-radius:0 0 50% 50%/0 0 90px 90px;margin:0 -20px;padding:20px 28px 84px;text-align:center;position:relative}
+.hw header{justify-content:center;position:relative}
+.logo{color:#1f4fa8;font-size:34px;line-height:1}.logo b{color:#ff3fa4}.logo i{color:#7b5cff}
+header .t{color:#5b77a8;font-weight:500}
+header>svg{position:absolute;right:0;top:0;width:48px;height:48px}
+.hero{margin:12px 0 0}
+.hero h1{background:none;color:#1f4fa8;-webkit-text-fill-color:#1f4fa8;font-size:clamp(24px,5vw,34px);letter-spacing:-.5px}
+.hero p{color:#5b77a8}
+.monsters{display:block;width:min(340px,86%);margin:10px auto 0}
+.monsters g{transform-box:fill-box;transform-origin:50% 100%;animation:mBob 3s ease-in-out infinite}
+.monsters g:nth-child(2n){animation-delay:-.8s}.monsters g:nth-child(3n){animation-delay:-1.6s}
+@keyframes mBob{50%{transform:translateY(-5px) rotate(2deg)}}
+.panel,.card,.modal-box{background:#f2f4f8;color:var(--ink);border:0;border-radius:28px;box-shadow:0 14px 34px rgba(5,20,60,.35)}
+#tabCard>.panel{margin-top:-52px;position:relative;z-index:2}
+.card.warn{box-shadow:0 0 0 3px #ff3fa4,0 14px 34px rgba(5,20,60,.35)}
+.card-h{background:#1f4fa8;color:#fff;border-radius:18px;padding:10px 16px}.card-h h3{color:#fff;font-size:16px}
+textarea{background:#e1eefb;color:var(--ink);border:2px solid var(--sky);border-radius:20px}
+textarea::placeholder,input::placeholder{color:#6f8fc4}
+.btn{background:#1f4fa8;color:#fff;box-shadow:0 4px 14px rgba(31,79,168,.35);font-family:'Ubuntu',sans-serif;font-weight:700}
+.btn.ghost{background:var(--sky);color:#1d4a9c;border:0}
+.btn.lime{background:#c5f03c;color:#15316e;box-shadow:0 4px 14px rgba(160,200,30,.45)}
+.btn:not(:disabled):hover{box-shadow:0 8px 20px rgba(31,79,168,.45)}
+.pill{background:var(--sky);color:#1d4a9c}.pill.good{background:#c9f3ea;color:#0e8a76}.pill.bad{background:#ffd3ea;color:#d1167f}
+.badge.ok{background:#c5f03c;color:#15316e}.badge.err{background:#ff3fa4;color:#fff}
+.grid div,.ifinfo div,.hist-item{background:#e1eefb;color:var(--ink)}
+.grid span,.ifinfo span,label,.hist-meta small,.hist-empty,.khint,.ci{color:#5b77a8}
+label.chk{color:var(--ink)}
+fieldset{border:2px solid var(--sky)}legend{color:#1f4fa8}
+input:not([type=checkbox]),select,select.btn{background:#fff;color:var(--ink);border:2px solid var(--sky);color-scheme:light}
+select option,select optgroup,option{background:#fff!important;color:var(--ink)!important}
+input[readonly]{background:#e1eefb;color:#0e8a76}
+.msg.e{color:#d1167f}.msg.w{color:#b57a00}.hist-meta span{color:#0e8a76}
+.preview,.hist-prev,.invprev{background:#dbe8f7}
+.kus{background:#e1eefb;border-color:var(--sky)}.tb{background:#fff;color:var(--ink);border-color:var(--sky)}
+.kline:hover{border-color:var(--sky)}.kline:focus{border-color:#1f4fa8}
+.modal{background:rgba(10,30,80,.7)}
+footer{color:#bcd6f7}
+.hw+*{}
+/* bottom nav pill */
+.tabs{position:fixed;left:50%;bottom:14px;transform:translateX(-50%);z-index:60;width:auto;max-width:94vw;flex-wrap:nowrap;gap:4px;padding:7px;background:#f2f4f8;border-radius:999px;box-shadow:0 10px 30px rgba(5,20,60,.5)}
+.tabs .btn{box-shadow:none;padding:10px 16px}.tabs .btn.ghost{background:transparent;color:#1f4fa8}
+#tabInv>header{background:#f2f4f8;border-radius:0 0 40px 40px;margin:0 -20px 16px;padding:16px 24px;color:var(--ink)}
+#fxToast{background:#fff;color:var(--ink);bottom:92px;border-color:var(--sky)}
+#fxSound{bottom:100px;background:#f2f4f8;color:#1f4fa8}
+/* ===== Mode gelap ===== */
+body,.hw,.panel,.card,.modal-box,.tabs,textarea,input,select,.btn,.pill,.grid div,#fxToast{transition:background-color .35s,color .35s,border-color .35s,box-shadow .35s}
+#fxTheme{position:fixed;right:14px;top:14px;z-index:98;width:44px;height:44px;border-radius:50%;border:0;background:#f2f4f8;color:#1f4fa8;font-size:20px;cursor:pointer;box-shadow:0 6px 18px rgba(5,20,60,.4);transition:transform .4s cubic-bezier(.3,1.6,.5,1)}
+#fxTheme:hover{transform:rotate(25deg) scale(1.12)}#fxTheme:active{transform:scale(.9)}
+@media print{#fxTheme{display:none!important}}
+html[data-theme=dark]{color-scheme:dark;--text:#eaf0ff;--mut:#98a6cf;--ink:#eaf0ff;--sky:#24357a}
+html[data-theme=dark] body{background:radial-gradient(900px 500px at 85% -10%,rgba(164,91,255,.25),transparent),radial-gradient(800px 500px at -10% 10%,rgba(47,107,255,.25),transparent),#0a1128}
+html[data-theme=dark] .hw,html[data-theme=dark] #tabInv>header{background:#111b3d;color:#eaf0ff}
+html[data-theme=dark] .logo{color:#7fa6ff}html[data-theme=dark] .logo b{color:#c5f03c}
+html[data-theme=dark] header .t,html[data-theme=dark] .hero p{color:#98a6cf}
+html[data-theme=dark] .hero h1{color:#8fb0ff;-webkit-text-fill-color:#8fb0ff}
+html[data-theme=dark] .panel,html[data-theme=dark] .card,html[data-theme=dark] .modal-box{background:linear-gradient(180deg,#14204a,#111b3d);color:#eaf0ff;box-shadow:0 14px 34px rgba(0,0,0,.5),0 0 0 1px rgba(120,150,255,.18)}
+html[data-theme=dark] .card.warn{box-shadow:0 0 0 2px #ff3fa4,0 14px 34px rgba(0,0,0,.5)}
+html[data-theme=dark] .card-h{background:#2f6bff}
+html[data-theme=dark] textarea,html[data-theme=dark] .kus,html[data-theme=dark] .grid div,html[data-theme=dark] .ifinfo div,html[data-theme=dark] .hist-item,html[data-theme=dark] input[readonly]{background:#0b1431;color:#eaf0ff}
+html[data-theme=dark] textarea{border-color:#24357a}
+html[data-theme=dark] textarea::placeholder,html[data-theme=dark] input::placeholder{color:#6f7fb0}
+html[data-theme=dark] .btn{background:linear-gradient(90deg,#2f6bff,#7b5cff);box-shadow:0 4px 18px rgba(47,107,255,.4)}
+html[data-theme=dark] .btn.ghost{background:#1b2a5e;color:#dbe6ff}
+html[data-theme=dark] .btn.lime{background:#c5f03c;color:#0a1128}
+html[data-theme=dark] .pill{background:#1b2a5e;color:#dbe6ff}html[data-theme=dark] .pill.good{background:rgba(197,240,60,.18);color:#c5f03c}html[data-theme=dark] .pill.bad{background:rgba(255,63,164,.2);color:#ff7cc3}
+html[data-theme=dark] .grid span,html[data-theme=dark] .ifinfo span,html[data-theme=dark] label,html[data-theme=dark] .hist-meta small,html[data-theme=dark] .hist-empty,html[data-theme=dark] .khint,html[data-theme=dark] .ci{color:#98a6cf}
+html[data-theme=dark] label.chk{color:#eaf0ff}
+html[data-theme=dark] legend,html[data-theme=dark] .hist-meta span,html[data-theme=dark] input[readonly]{color:#c5f03c}
+html[data-theme=dark] fieldset{border-color:#24357a}
+html[data-theme=dark] input:not([type=checkbox]),html[data-theme=dark] select,html[data-theme=dark] select.btn{background:#0b1431;color:#eaf0ff;border-color:#24357a}
+html[data-theme=dark] select option,html[data-theme=dark] option{background:#0b1431!important;color:#eaf0ff!important}
+html[data-theme=dark] .preview,html[data-theme=dark] .hist-prev,html[data-theme=dark] .invprev{background:#1b2a5e}
+html[data-theme=dark] .tb{background:#14204a;color:#eaf0ff;border-color:#24357a}
+html[data-theme=dark] .msg.e{color:#ff7cc3}html[data-theme=dark] .msg.w{color:#ffd36b}
+html[data-theme=dark] .tabs{background:#111b3d;box-shadow:0 10px 30px rgba(0,0,0,.6),0 0 0 1px rgba(120,150,255,.2)}
+html[data-theme=dark] .tabs .btn.ghost{background:transparent;color:#98a6cf}
+html[data-theme=dark] #fxToast{background:#16245a;color:#eaf0ff;border-color:rgba(150,170,255,.35)}
+html[data-theme=dark] #fxSound,html[data-theme=dark] #fxTheme{background:#14204a;color:#ffd36b}
+html[data-theme=dark] footer{color:#7f90c4}
+</style>
+<script>
+/* DiGhital FX — efek interaksi: toast ceria, confetti, ripple, suara, maskot */
+(function(){
+  const $=s=>document.querySelector(s), rnd=a=>a[Math.floor(Math.random()*a.length)];
+  const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  /* ---------- Suara (bisa dimatikan) ---------- */
+  let mute=false; try{mute=localStorage.getItem('dgfx_mute')==='1'}catch(e){}
+  const sb=document.createElement('button'); sb.id='fxSound'; sb.type='button'; sb.title='Suara efek'; sb.textContent=mute?'🔇':'🔊';
+  sb.onclick=()=>{mute=!mute;sb.textContent=mute?'🔇':'🔊';try{localStorage.setItem('dgfx_mute',mute?'1':'0')}catch(e){} if(!mute)fx.toast('Suara efek nyala 🔊','info',1800)};
+  document.body.appendChild(sb);
+  let ac; function tone(freqs,type){ if(mute)return; try{ ac=ac||new (window.AudioContext||window.webkitAudioContext)(); const t0=ac.currentTime;
+    freqs.forEach((f,i)=>{const o=ac.createOscillator(),g=ac.createGain(); o.type=type||'sine'; o.frequency.value=f; o.connect(g); g.connect(ac.destination);
+      const t=t0+i*.09; g.gain.setValueAtTime(0,t); g.gain.linearRampToValueAtTime(.06,t+.02); g.gain.exponentialRampToValueAtTime(.0001,t+.28); o.start(t); o.stop(t+.3);});}catch(e){} }
+  const snd={ok:()=>tone([523,659,784,1047]),info:()=>tone([660,880]),warn:()=>tone([400,330],'triangle'),err:()=>tone([300,220],'sawtooth')};
+  /* ---------- Confetti ---------- */
+  const cv=document.createElement('canvas'); cv.id='fxCanvas'; document.body.appendChild(cv); const cx=cv.getContext('2d');
+  let P=[],raf=0; const COL=['#2f6bff','#a45bff','#b6ff3c','#ffffff','#ff6b8a','#ffd36b'];
+  function size(){cv.width=innerWidth;cv.height=innerHeight} size(); addEventListener('resize',size);
+  function loop(){ cx.clearRect(0,0,cv.width,cv.height);
+    P=P.filter(p=>p.life>0&&p.y<cv.height+30);
+    P.forEach(p=>{p.vy+=.22;p.vx*=.992;p.x+=p.vx;p.y+=p.vy;p.r+=p.vr;p.life--;
+      cx.save();cx.translate(p.x,p.y);cx.rotate(p.r);cx.globalAlpha=Math.min(1,p.life/30);cx.fillStyle=p.c;
+      if(p.s)cx.fillRect(-p.w/2,-p.h/2,p.w,p.h);else{cx.beginPath();cx.arc(0,0,p.w/2,0,7);cx.fill();}cx.restore();});
+    raf=P.length?requestAnimationFrame(loop):0; if(!P.length)cx.clearRect(0,0,cv.width,cv.height); }
+  function confetti(x,y,n){ if(reduce)return; n=n||90; x=x??innerWidth/2; y=y??innerHeight*.35;
+    for(let i=0;i<n;i++){const a=Math.random()*Math.PI*2,v=4+Math.random()*9;
+      P.push({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-6,w:6+Math.random()*7,h:4+Math.random()*7,r:Math.random()*6,vr:(Math.random()-.5)*.4,c:rnd(COL),s:Math.random()<.6,life:90+Math.random()*60});}
+    if(!raf)raf=requestAnimationFrame(loop); }
+  /* ---------- Toast ceria ---------- */
+  const tel=document.createElement('div'); tel.id='fxToast'; tel.setAttribute('role','status'); tel.innerHTML='<div class="ic"></div><div class="tx"></div><div class="bar"></div>'; document.body.appendChild(tel);
+  const ICON={ok:'✅',warn:'🧐',err:'😵',info:'✨'}; let tt;
+  function toast(msg,type,dur){ type=type||'info'; dur=dur||(type==='err'||type==='warn'?4800:3400);
+    tel.className=''; void tel.offsetWidth; tel.classList.add(type); tel.style.setProperty('--dur',dur+'ms');
+    tel.querySelector('.ic').textContent=ICON[type]; tel.querySelector('.tx').textContent=msg; tel.classList.add('show');
+    clearTimeout(tt); tt=setTimeout(()=>tel.classList.remove('show'),dur); (snd[type]||snd.info)(); }
+  /* ---------- Maskot ---------- */
+  function mascot(cls){ document.querySelectorAll('header svg,.inv-brand,.monsters g').forEach(m=>{m.classList.remove('fx-hop','fx-sad');void m.getBBox;void m.offsetWidth;m.classList.add(cls||'fx-hop');}); }
+  function shake(el){ if(!el)return; el.classList.remove('fx-shake'); void el.offsetWidth; el.classList.add('fx-shake'); }
+  const origin=el=>{ if(!el)return{}; const r=el.getBoundingClientRect(); return {x:r.left+r.width/2,y:r.top+r.height/2}; };
+  const activeBox=()=> ($('#tabInv')&&!$('#tabInv').hidden)?$('#invChat'):$('#chat');
+  window.fx={toast,confetti,mascot,shake};
+  let lastErr=0, lastBtn=null;
+  /* ---------- Toast bawaan aplikasi → toast ceria ---------- */
+  const old=$('#toast');
+  if(old) new MutationObserver(()=>{ const m=(old.textContent||'').trim(); if(!m||!old.classList.contains('show'))return;
+    old.classList.remove('show');
+    if(/^Gagal|tidak terbaca|penuh/i.test(m)){ lastErr=Date.now(); toast('Ups! '+m.replace(/^Gagal:\s*/i,'Ada kendala: '),'err'); mascot('fx-sad'); shake(activeBox()); }
+    else if(/dulu/i.test(m)){ lastErr=Date.now(); toast('Eits, '+m.charAt(0).toLowerCase()+m.slice(1),'warn'); mascot('fx-sad'); shake(activeBox()); }
+    else toast(m,'info',6000);
+  }).observe(old,{childList:true,characterData:true,subtree:true,attributes:true,attributeFilter:['class']});
+  /* ---------- Ripple ---------- */
+  document.addEventListener('pointerdown',e=>{ const b=e.target.closest&&e.target.closest('.btn'); if(!b||b.disabled||b.tagName==='SELECT')return;
+    const r=b.getBoundingClientRect(),d=Math.max(r.width,r.height),s=document.createElement('span'); s.className='fx-rip';
+    s.style.cssText=`width:${d}px;height:${d}px;left:${e.clientX-r.left-d/2}px;top:${e.clientY-r.top-d/2}px`; b.appendChild(s); setTimeout(()=>s.remove(),650); },true);
+  /* ---------- Aksi tombol ---------- */
+  const OKMSG=n=>rnd([`Mantaaappp! ${n} pesanan berhasil dicek ✅`,`Kereeen! ${n} kertas ucapan siap dicetak 🎉`,`Yeay! ${n} data beres, tinggal download 🚀`]);
+  function afterParse(btn){ setTimeout(()=>{ if(Date.now()-lastErr<400)return; const D=window.DGCS; if(!D)return; const ev=D.evals(),n=ev.length; if(!n)return;
+      const ok=ev.filter(e=>e.ok).length,o=origin(btn);
+      document.querySelectorAll('#results .card').forEach((c,i)=>{c.style.animationDelay=(i*80)+'ms';c.classList.add('fx-pop');});
+      if(ok===n){toast(OKMSG(n),'ok');confetti(o.x,o.y,130);mascot('fx-hop');}
+      else if(ok>0){toast(`Hampir sempurna! ${ok} siap, ${n-ok} perlu dicek dulu 🧐`,'warn');confetti(o.x,o.y,50);mascot('fx-hop');}
+      else {toast('Hmm, datanya masih kurang. Cek bagian yang bertanda merah ya 🔍','warn');mascot('fx-sad');}
+    },90); }
+  document.addEventListener('click',e=>{
+    const t=e.target.closest&&e.target.closest('button,[data-act],[data-inv],[data-tab]'); if(!t)return; lastBtn=t; const id=t.id,act=t.dataset&&t.dataset.act,o=origin(t);
+    if(id==='btnParse') return afterParse(t);
+    if(id==='invParse') return setTimeout(()=>{ const r=$('#invResults'); if(Date.now()-lastErr<400||!r||!r.innerHTML.trim())return;
+      toast('Mantaaappp Formnya Sudah Berhasil di Cek! 🧾','ok'); confetti(o.x,o.y,130); mascot('fx-hop'); r.classList.remove('fx-pop'); void r.offsetWidth; r.classList.add('fx-pop'); },90);
+    if(id==='btnSample'||id==='invSample'){ toast('Contoh sudah dimuat! Tinggal klik tombol baca ⚡','info'); mascot(); const p=$(id==='btnSample'?'#btnParse':'#invParse'); if(p){p.classList.remove('fx-pulse');void p.offsetWidth;p.classList.add('fx-pulse');} return; }
+    if(id==='btnClear'||id==='invClear'){ toast(rnd(['Bersih kinclong! ✨ Siap untuk pesanan baru','Semua dibersihkan 🧹 Yuk mulai lagi!']),'info'); mascot(); return; }
+    if(id==='btnHist'){ toast('Riwayat dibuka 🕘','info',1800); return; }
+    if(id==='btnAll'&&!t.disabled){ toast('Sedang membuat semua kertas… ⏳ Tunggu sebentar ya!','info',2500); return; }
+    if(t.dataset&&t.dataset.tab){ toast(t.dataset.tab==='inv'?'Pindah ke Invoice Nabawi 🧾':'Kembali ke Kertas Ucapan 🎉','info',1800); mascot(); return; }
+    if(act==='edit') return toast('Mode edit data ✏️ Ubah sesukamu!','info',2200);
+    if(act==='regen') return toast('Digenerate ulang! 🔄 Fresh banget','ok',2200),confetti(o.x,o.y,40);
+    if(act==='kustom') return toast('Mode Kustom 🎨 Klik teks di kertas untuk mengubahnya','info',2800);
+    if(act==='pdf') return toast('Menyiapkan PDF… 📄 Pilih “Save as PDF” di dialog cetak','info',5000),confetti(o.x,o.y,40);
+    if(act==='print'||id==='invPrint') return toast('Menyiapkan kertas untuk dicetak 🖨️','info',2600),confetti(o.x,o.y,60);
+  },true);
+  document.addEventListener('change',e=>{ const t=e.target; if(!t.dataset)return;
+    if(t.dataset.act==='tpl'){ toast('Template diganti! 🎨 Kertas diperbarui','ok',2200); mascot(); }
+    else if(t.dataset.o!==undefined&&t.dataset.f){ toast('Data diperbarui ✍️','info',1500); } });
+  /* ---------- Download berhasil (Word / ZIP / dll) ---------- */
+  const _click=HTMLAnchorElement.prototype.click;
+  HTMLAnchorElement.prototype.click=function(){ const r=_click.apply(this,arguments);
+    if(this.download){ const n=this.download, zip=/\.zip$/i.test(n), o=origin(lastBtn);
+      toast(zip?'Booom! Semua kertas ucapan berhasil dibuat dalam ZIP 🗂️🎉':`Mantaaappp! ${/\.pdf$/i.test(n)?'PDF':'File Word'} berhasil dibuat: ${n.length>38?n.slice(0,35)+'…':n} 🎉`,'ok',4200);
+      confetti(o.x,o.y,zip?200:140); mascot(); }
+    return r; };
+  addEventListener('load',()=>setTimeout(()=>{ toast('Halo! Byte siap bantu bikin kertas ucapan 👋','info',2600); mascot(); },500));
+})();
+
+(function(){
+  const NS='http://www.w3.org/2000/svg';
+  const face=(x,y,s)=>`<circle cx="${x-7*s}" cy="${y}" r="${2.4*s}" fill="#15316e"/><circle cx="${x+7*s}" cy="${y}" r="${2.4*s}" fill="#15316e"/><path d="M${x-5*s} ${y+7*s}Q${x} ${y+12*s} ${x+5*s} ${y+7*s}" stroke="#15316e" stroke-width="${2*s}" fill="none" stroke-linecap="round"/>`;
+  const svg=`<svg class="monsters" viewBox="0 0 320 150" aria-hidden="true">
+  <g><path d="M38 52l10 18 20-6-6 20 18 10-20 8 4 20-18-10-12 16-8-20-20-2 12-16-10-18 20 2z" fill="#ffd23f"/>${face(42,92,1)}</g>
+  <g><ellipse cx="128" cy="62" rx="44" ry="50" fill="#d4f23c"/>${face(128,56,1.3)}</g>
+  <g><circle cx="238" cy="40" r="24" fill="#b9dbf7"/><circle cx="214" cy="52" r="18" fill="#b9dbf7"/><circle cx="262" cy="54" r="18" fill="#b9dbf7"/><path d="M222 58q6 6 12 0M244 58q6 6 12 0" stroke="#15316e" stroke-width="2" fill="none"/></g>
+  <g><path d="M170 130q-18-50 8-62 6-14 20-6 14-8 22 4 14 4 12 24 4 22-8 40z" fill="#ff3fa4"/>${face(204,92,1.1)}</g>
+  <g><ellipse cx="92" cy="118" rx="30" ry="30" fill="#c9a0dc"/><circle cx="92" cy="110" r="12" fill="#fff"/><circle cx="92" cy="110" r="6" fill="#15316e"/><ellipse cx="92" cy="130" rx="3" ry="4" fill="#15316e"/></g>
+  <g><rect x="248" y="76" width="56" height="62" rx="26" fill="#3cc6b8"/>${face(276,102,1.1)}</g></svg>`;
+  const wrap=(tab,withMon)=>{ const t=document.getElementById(tab); if(!t)return; const h=t.querySelector('header'),hero=t.querySelector('.hero'); if(!h)return;
+    const w=document.createElement('div'); w.className='hw'; h.before(w); w.appendChild(h); if(hero)w.appendChild(hero); if(withMon)w.insertAdjacentHTML('beforeend',svg); };
+  wrap('tabCard',true);
+  const ih=document.querySelector('#tabInv>header'); if(ih)ih.insertAdjacentHTML('afterbegin','');
+  document.querySelectorAll('.monsters g').forEach(g=>g.addEventListener('click',()=>{g.classList.remove('fx-hop');void g.getBoundingClientRect();g.classList.add('fx-hop');if(window.fx)fx.confetti(innerWidth/2,innerHeight*.3,40);}));
+})();
+
+(function(){
+  const root=document.documentElement; let th='light'; try{th=localStorage.getItem('dgfx_theme')||'light'}catch(e){}
+  const b=document.createElement('button'); b.id='fxTheme'; b.type='button';
+  const set=(t,say)=>{ th=t; root.setAttribute('data-theme',t); b.textContent=t==='dark'?'☀️':'🌙'; b.title=t==='dark'?'Ganti ke mode terang':'Ganti ke mode gelap'; b.setAttribute('aria-label',b.title);
+    try{localStorage.setItem('dgfx_theme',t)}catch(e){}
+    if(say&&window.fx){ fx.toast(t==='dark'?'Mode gelap aktif 🌙 Nyaman buat mata, kan?':'Mode terang aktif ☀️ Cerah ceria!','info',2200); fx.mascot(); fx.confetti(innerWidth-36,36,36); } };
+  b.onclick=()=>set(th==='dark'?'light':'dark',true); document.body.appendChild(b); set(th,false);
+})();
+</script>
 </body>
 </html>
