@@ -516,6 +516,19 @@ Object.assign(window.DG_TEMPLATES, {"hidup-mati": "UEsDBBQAAAAIAAAAIQBYVIKfiAEAA
         p.parentNode.removeChild(p);
       }
     });
+    // setiap kartu yang punya salam penutup juga wajib punya "Assalamualaikum Wr. Wb" tepat di bawah BISMILLAH
+    {
+      const ptxt = p => [...p.getElementsByTagNameNS(WNS, 't')].map(t => t.textContent).join('');
+      let lastBis = null, hasAss = false;
+      [...doc.getElementsByTagNameNS(WNS, 'p')].forEach(p => {
+        const t = ptxt(p);
+        if (/BISMILL/i.test(t) && t.length < 80) { lastBis = p; hasAss = false; return; }
+        if (/Wassalamualaikum\s*Wr/i.test(t) && lastBis && !hasAss) {
+          const np = p.cloneNode(true); setText(np, 'Assalamualaikum Wr. Wb');
+          lastBis.parentNode.insertBefore(np, lastBis.nextSibling); hasAss = true;
+        }
+      });
+    }
     const kidsOf = el => [...el.children];
     [...doc.getElementsByTagNameNS(WNS, 'tc')].forEach(tc => {
       let pr = kidsOf(tc).find(c => c.localName === 'tcPr');
